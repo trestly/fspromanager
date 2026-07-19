@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P&amp;L Preparation for Bank Statement Loans &amp; Self-Employed Borrowers | Maryland Biz Bookkeeper — Lender Desk</title>
+<meta name="description" content="Third-party P&L preparation for bank statement loans. 12- and 24-month Schedule C-aligned profit &amp; loss statements for self-employed borrowers — human-reviewed, same business day. Serving loan officers in Montgomery County, MD and nationwide. First file free.">
+<link rel="canonical" href="https://marylandbizbookkeeper.com/lenders">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="P&amp;L Preparation for Bank Statement Loans | Maryland Biz Bookkeeper — Lender Desk">
+<meta property="og:description" content="Your borrower's bank statements in. An underwriting-ready P&L out. 12- and 24-month, human-reviewed, same business day. First file free for loan officers.">
+<meta property="og:url" content="https://marylandbizbookkeeper.com/lenders">
+<meta property="og:site_name" content="Maryland Biz Bookkeeper">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="P&amp;L Preparation for Bank Statement Loans | Lender Desk">
+<meta name="twitter:description" content="Underwriting-ready P&Ls for self-employed borrowers. Same business day. First file free for loan officers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+/* ============================================================
+   CONFIG — edit everything here, nothing below needs touching
+   ============================================================ */
+const CONFIG = {
+  contactEmail: "lenders@marylandbizbookkeeper.com",        // <-- CONFIRM: where intake submissions go
+  phone: "",                                    // optional, shows in footer if set
+  businessAddress: "[Your business mailing address]", // required in footer
+  intakeEndpoint: "",                           // optional: Supabase Edge Function URL. Blank = email fallback.
+  pricing: {
+    price12: "$299",                            // <-- CONFIRM: 12 months of statements
+    price24: "$449",                            // <-- CONFIRM: 24 months of statements
+    volumeNote: "Sending 5+ files a month? Ask about partner pricing."
+  },
+  turnaround: "Same business day",              // external promise (human review buffer built in)
+};
+</script>
+<style>
+:root{
+  --navy:#0A2540; --navy-deep:#061A30; --navy-panel:#0E2E4E;
+  --green:#16A34A; --green-bright:#22C55E; --blue:#1E80C9;
+  --paper:#F4F7FA; --ink:#0A2540;
+  --line:rgba(255,255,255,.12); --dim:rgba(232,240,247,.68);
+  --white:#EDF3F8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{font-family:'Inter',sans-serif;background:var(--navy-deep);color:var(--white);line-height:1.6;font-size:16px}
+.mono{font-family:'JetBrains Mono',monospace}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+a{color:var(--green-bright)}
+:focus-visible{outline:2px solid var(--green-bright);outline-offset:3px;border-radius:2px}
+
+/* ---- audience bar: the "you are NOT on the consumer site" signal ---- */
+.audience{background:var(--green);color:#04270F;font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:700;letter-spacing:.06em;text-align:center;padding:9px 16px;text-transform:uppercase}
+
+/* ---- header ---- */
+header{border-bottom:1px solid var(--line);background:var(--navy-deep);position:sticky;top:0;z-index:50}
+.hrow{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+.logo{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.logo .fp{font-family:'Archivo',sans-serif;font-weight:800;font-size:20px;color:var(--white);letter-spacing:-.01em}
+.logo .desk{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--green-bright);border:1px solid var(--green);padding:3px 8px;border-radius:3px;text-transform:uppercase}
+nav{display:flex;gap:22px;align-items:center}
+nav a{color:var(--dim);text-decoration:none;font-size:14px;font-weight:500}
+nav a:hover{color:var(--white)}
+.btn{display:inline-block;background:var(--green);color:#fff;font-weight:600;font-size:15px;padding:12px 24px;border-radius:6px;text-decoration:none;border:none;cursor:pointer;transition:background .15s}
+.btn:hover{background:var(--green-bright)}
+.btn.small{padding:9px 18px;font-size:14px}
+@media(max-width:640px){nav a.hide-m{display:none}.logo .fp{font-size:15px}}
+
+/* ---- hero ---- */
+.hero{padding:76px 0 60px;border-bottom:1px solid var(--line);background:
+  radial-gradient(1200px 500px at 80% -10%, rgba(30,128,201,.18), transparent 60%), var(--navy-deep)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.12em;color:var(--blue);text-transform:uppercase;margin-bottom:18px}
+h1{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(34px,5.2vw,54px);line-height:1.08;letter-spacing:-.02em;max-width:760px}
+h1 .g{color:var(--green-bright)}
+.hero p.sub{margin:22px 0 30px;font-size:18px;color:var(--dim);max-width:620px}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.ghost{color:var(--white);text-decoration:none;font-weight:500;font-size:15px;padding:12px 8px}
+.freechip{margin-top:34px;display:inline-flex;align-items:center;gap:10px;background:var(--navy-panel);border:1px solid var(--line);border-left:3px solid var(--green);padding:12px 18px;border-radius:6px;font-size:14.5px}
+.freechip b{color:var(--green-bright)}
+
+/* ---- how it works ---- */
+section{padding:64px 0}
+h2{font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(24px,3.2vw,32px);letter-spacing:-.01em;margin-bottom:8px}
+.lede{color:var(--dim);max-width:640px;margin-bottom:36px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:760px){.steps{grid-template-columns:1fr}}
+.step{background:var(--navy-panel);border:1px solid var(--line);border-radius:8px;padding:24px}
+.step .n{font-family:'JetBrains Mono',monospace;color:var(--blue);font-size:13px;font-weight:700;letter-spacing:.1em;margin-bottom:12px}
+.step h3{font-family:'Archivo',sans-serif;font-size:18px;font-weight:700;margin-bottom:8px}
+.step p{color:var(--dim);font-size:14.5px}
+
+/* ---- rate sheet (signature) ---- */
+.ratesheet{background:var(--paper);color:var(--ink)}
+.ratesheet h2{color:var(--ink)}
+.ratesheet .lede{color:#3D5670}
+.sheet{border:2px solid var(--ink);border-radius:8px;overflow:hidden;background:#fff;box-shadow:8px 8px 0 rgba(10,37,64,.12)}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:var(--white);padding:14px 22px;font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;flex-wrap:wrap;gap:8px}
+.sheet-head .eff{color:var(--green-bright)}
+.tiers{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:760px){.tiers{grid-template-columns:1fr}}
+.tier{padding:30px 26px}
+.tier + .tier{border-left:1px solid rgba(10,37,64,.15)}
+@media(max-width:760px){.tier + .tier{border-left:none;border-top:1px solid rgba(10,37,64,.15)}}
+.tier .tag{font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.tier.flag .tag{color:var(--green)}
+.tier h3{font-family:'Archivo',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px}
+.price{font-family:'JetBrains Mono',monospace;font-size:38px;font-weight:700;color:var(--ink);margin:14px 0 2px}
+.unit{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#5B7186;margin-bottom:18px}
+.tier ul{list-style:none;margin:0 0 22px}
+.tier li{padding:7px 0 7px 26px;position:relative;font-size:14.5px;color:#243D57;border-bottom:1px dashed rgba(10,37,64,.12)}
+.tier li:last-child{border-bottom:none}
+.tier li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
+.tier .btn{width:100%;text-align:center}
+.tier .btn.outline{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+.tier .btn.outline:hover{background:var(--ink);color:#fff}
+.sheet-foot{border-top:1px solid rgba(10,37,64,.15);padding:14px 22px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#3D5670;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.free-callout{margin-top:22px;background:var(--green);color:#fff;border-radius:8px;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.free-callout b{font-family:'Archivo',sans-serif;font-size:17px}
+.free-callout .btn{background:#fff;color:var(--green)}
+.free-callout .btn:hover{background:var(--paper)}
+
+/* ---- deliverable ---- */
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:760px){.spec{grid-template-columns:1fr}}
+.spec .card{background:var(--navy-panel);border:1px solid var(--line);border-radius:8px;padding:24px}
+.spec h3{font-family:'Archivo',sans-serif;font-size:17px;margin-bottom:12px;color:var(--green-bright)}
+.spec ul{list-style:none}
+.spec li{padding:6px 0 6px 22px;position:relative;color:var(--dim);font-size:14.5px}
+.spec li::before{content:"—";position:absolute;left:0;color:var(--blue)}
+
+/* ---- intake form ---- */
+.intake{border-top:1px solid var(--line)}
+form{background:var(--navy-panel);border:1px solid var(--line);border-radius:10px;padding:32px;max-width:680px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.frow{grid-template-columns:1fr}}
+.field{margin-bottom:16px}
+label{display:block;font-size:13px;font-weight:600;color:var(--white);margin-bottom:6px}
+label .opt{color:var(--dim);font-weight:400}
+input,select,textarea{width:100%;background:var(--navy-deep);border:1px solid var(--line);border-radius:6px;color:var(--white);padding:11px 13px;font-family:'Inter',sans-serif;font-size:15px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)}
+textarea{min-height:110px;resize:vertical}
+.formnote{font-size:13px;color:var(--dim);margin:14px 0 20px}
+#formStatus{margin-top:16px;font-size:14.5px;display:none;padding:12px 16px;border-radius:6px}
+#formStatus.ok{display:block;background:rgba(22,163,74,.15);border:1px solid var(--green);color:var(--green-bright)}
+#formStatus.err{display:block;background:rgba(201,60,30,.15);border:1px solid #C93C1E;color:#F0A08E}
+
+/* ---- FAQ ---- */
+.faq details{border:1px solid var(--line);border-radius:8px;background:var(--navy-panel);margin-bottom:12px}
+.faq summary{cursor:pointer;padding:16px 20px;font-family:'Archivo',sans-serif;font-weight:700;font-size:16px;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:'JetBrains Mono',monospace;color:var(--green-bright);font-size:18px;flex-shrink:0}
+.faq details[open] summary::after{content:"–"}
+.faq .a{padding:0 20px 18px;color:var(--dim);font-size:14.5px;max-width:720px}
+
+/* ---- footer ---- */
+footer{border-top:1px solid var(--line);padding:40px 0 48px;font-size:13px;color:var(--dim)}
+footer .disc{max-width:820px;margin-bottom:18px;line-height:1.7}
+footer .mono{font-size:12px}
+</style>
+</head>
+<body>
+
+<div class="audience">For loan officers, brokers &amp; lending teams — income documentation for self-employed borrowers</div>
+
+<header>
+  <div class="wrap hrow">
+    <a class="logo" href="/" aria-label="Maryland Biz Bookkeeper Lender Desk home">
+      <span class="fp">Maryland Biz Bookkeeper</span><span class="desk">Lender Desk</span>
+    </a>
+    <nav>
+      <a href="#how" class="hide-m">How it works</a>
+      <a href="#pricing" class="hide-m">Rate sheet</a>
+      <a href="#deliverable" class="hide-m">The deliverable</a>
+      <a href="#faq" class="hide-m">FAQ</a>
+      <a href="#intake" class="btn small">Send a file</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="eyebrow">P&amp;L preparation for bank statement loans &amp; self-employed files</div>
+    <h1>Your borrower's bank statements in.<br>An underwriting-ready <span class="g">P&amp;L</span> out.</h1>
+    <p class="sub">Maryland Biz Bookkeeper is a Maryland-based bookkeeping service, and this desk is built for LOs and brokers. We turn raw bank statements into a clean, Schedule&nbsp;C-aligned profit &amp; loss statement for bank statement loan programs and other self-employed income documentation — so your files stop stalling on income docs. Based in Wheaton, serving loan officers across Montgomery County, Maryland, and remotely nationwide.</p>
+    <div class="hero-ctas">
+      <a class="btn" href="#intake">Send your first file — free</a>
+      <a class="ghost" href="#pricing">See the rate sheet →</a>
+    </div>
+    <div class="freechip mono">TURNAROUND: <b id="taChip"></b> · human-reviewed before it reaches you</div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="lede">Your borrower does almost nothing. You stay in the loop, not in the weeds.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="n">STEP 1 / YOU SEND</div>
+        <h3>Submit the file below</h3>
+        <p>Tell us the borrower scenario. We reply with a secure upload link for 12–24 months of personal or business bank statements — PDFs or CSVs, straight from the borrower or from you.</p>
+      </div>
+      <div class="step">
+        <div class="n">STEP 2 / WE BUILD</div>
+        <h3>We prepare the P&amp;L</h3>
+        <p>Deposits analyzed, expenses categorized to Schedule&nbsp;C standards, owner draws and transfers separated out. Every P&amp;L is reviewed by a human before delivery.</p>
+      </div>
+      <div class="step">
+        <div class="n">STEP 3 / YOU CLOSE</div>
+        <h3>Drop it in the file</h3>
+        <p>You receive a clean PDF formatted for underwriting, plus the categorized detail behind it if your underwriter asks questions. Your file keeps moving.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ratesheet" id="pricing">
+  <div class="wrap">
+    <h2>Rate sheet</h2>
+    <p class="lede">Flat rates. No subscriptions, no minimums, no per-seat anything. You pay per file, or your borrower pays directly — your call.</p>
+
+    <div class="sheet">
+      <div class="sheet-head">
+        <span>MARYLAND BIZ BOOKKEEPER · LENDER RATE SHEET</span>
+        <span class="eff">EFFECTIVE UNTIL REVISED</span>
+      </div>
+      <div class="tiers">
+        <div class="tier flag">
+          <div class="tag">★ Most common</div>
+          <h3>12-Month P&amp;L</h3>
+          <div class="price" id="p1"></div>
+          <div class="unit">per borrower file · 12 months of statements</div>
+          <ul>
+            <li>12 months of personal or business bank statements analyzed</li>
+            <li>Schedule&nbsp;C-aligned categorization</li>
+            <li>Owner draws &amp; transfers separated from income</li>
+            <li>Reviewed by a human before delivery</li>
+            <li>Underwriter question support on the file</li>
+            <li id="taLine"></li>
+          </ul>
+          <a class="btn" href="#intake">Send a 12-month file</a>
+        </div>
+        <div class="tier">
+          <div class="tag">Full lookback</div>
+          <h3>24-Month P&amp;L</h3>
+          <div class="price" id="p2"></div>
+          <div class="unit">per borrower file · 24 months of statements</div>
+          <ul>
+            <li>24 months of personal or business bank statements analyzed</li>
+            <li>Everything in the 12-month P&amp;L</li>
+            <li>Year-over-year view for income trend questions</li>
+            <li>Matches 24-month bank statement program requirements</li>
+          </ul>
+          <a class="btn outline" href="#intake">Send a 24-month file</a>
+        </div>
+      </div>
+      <div class="sheet-foot">
+        <span id="volNote"></span>
+        <span>NO SUBSCRIPTION · PAY PER FILE</span>
+      </div>
+    </div>
+
+    <div class="free-callout">
+      <div><b>Your first P&amp;L is free — 12 or 24 months, your pick.</b><br>Pick your most stuck self-employed file and judge the output before you pay a dollar.</div>
+      <a class="btn" href="#intake">Claim the free file</a>
+    </div>
+  </div>
+</section>
+
+<section id="deliverable">
+  <div class="wrap">
+    <h2>What lands in your inbox</h2>
+    <p class="lede">A document your underwriter can actually work with — not a spreadsheet dump.</p>
+    <div class="spec">
+      <div class="card">
+        <h3>The P&amp;L itself</h3>
+        <ul>
+          <li>Monthly and trailing-period views (12 / 24 months)</li>
+          <li>Revenue by deposit source, expense lines mapped to Schedule&nbsp;C categories</li>
+          <li>Net income summary suitable for income calculation worksheets</li>
+          <li>Clean PDF, consistent format file after file</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>The backup behind it</h3>
+        <ul>
+          <li>Categorized transaction detail supporting every line</li>
+          <li>Notes on excluded items (transfers, owner draws, one-offs)</li>
+          <li>Preparer contact for underwriter questions</li>
+          <li>Revisions if the underwriter needs a different period cut</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <h2>Loan officer FAQ</h2>
+    <p class="lede">The questions we hear from LOs and brokers about third-party P&amp;L preparation.</p>
+    <details>
+      <summary>What is a P&amp;L for a bank statement loan?</summary>
+      <div class="a">Many bank statement loan programs let a self-employed borrower qualify using 12 or 24 months of bank statements plus a profit &amp; loss statement, instead of tax returns. The P&amp;L organizes the borrower's deposits and business expenses into a standard income picture — ours are categorized to Schedule&nbsp;C standards with owner draws and transfers separated out.</div>
+    </details>
+    <details>
+      <summary>Can a third-party bookkeeper prepare the P&amp;L for my borrower?</summary>
+      <div class="a">Many bank statement programs accept a P&amp;L prepared by a third-party bookkeeping or tax professional rather than the borrower themselves — but requirements vary by lender and program, so check your specific guidelines. We prepare P&amp;Ls as a bookkeeping service, deliver them with preparer contact information, and support underwriter questions on the file.</div>
+    </details>
+    <details>
+      <summary>Do I need a 12-month or 24-month P&amp;L?</summary>
+      <div class="a">It depends on your program: 12-month bank statement programs need a P&amp;L covering the same 12 months, while 24-month programs use the longer lookback — which also gives underwriting a year-over-year view when income trends are in question. We prepare both (<span class="faqP12"></span> for 12 months, <span class="faqP24"></span> for 24).</div>
+    </details>
+    <details>
+      <summary>How fast is turnaround?</summary>
+      <div class="a"><span class="faqTa"></span> from the time we receive complete statements, and every P&amp;L is reviewed by a human before it reaches you. Rush situations — clear-to-close dates, expiring locks — flag it in the intake form and we'll tell you honestly whether we can hit your date.</div>
+    </details>
+    <details>
+      <summary>Do you only work with Maryland loan officers?</summary>
+      <div class="a">We're based in Wheaton and work in person with loan officers across Montgomery County — Rockville, Bethesda, Gaithersburg, Silver Spring, and the wider DMV. The work itself is fully remote-friendly, so lenders anywhere in the U.S. can send files.</div>
+    </details>
+    <details>
+      <summary>What does it cost?</summary>
+      <div class="a">Flat per-file rates: <span class="faqP12"></span> for a 12-month P&amp;L, <span class="faqP24"></span> for a 24-month P&amp;L. No subscriptions or minimums, and your first file is free so you can judge the output before paying anything.</div>
+    </details>
+  </div>
+</section>
+
+<section class="intake" id="intake">
+  <div class="wrap">
+    <h2>Send a file</h2>
+    <p class="lede">Takes two minutes. We reply within one business day with a secure upload link for the borrower's statements.</p>
+    <form id="intakeForm" novalidate>
+      <div class="frow">
+        <div class="field">
+          <label for="loName">Your name</label>
+          <input type="text" id="loName" name="loName" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="loCompany">Company / brokerage</label>
+          <input type="text" id="loCompany" name="loCompany" required autocomplete="organization">
+        </div>
+      </div>
+      <div class="frow">
+        <div class="field">
+          <label for="loEmail">Work email</label>
+          <input type="email" id="loEmail" name="loEmail" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="loPhone">Phone <span class="opt">(optional)</span></label>
+          <input type="tel" id="loPhone" name="loPhone" autocomplete="tel">
+        </div>
+      </div>
+      <div class="frow">
+        <div class="field">
+          <label for="loNmls">NMLS # <span class="opt">(optional)</span></label>
+          <input type="text" id="loNmls" name="loNmls">
+        </div>
+        <div class="field">
+          <label for="fileType">This file is</label>
+          <select id="fileType" name="fileType">
+            <option>My free first file</option>
+            <option>A 12-month P&amp;L</option>
+            <option>A 24-month P&amp;L</option>
+            <option>A question about volume / partner pricing</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="scenario">Borrower scenario</label>
+        <textarea id="scenario" name="scenario" placeholder="e.g., Sole-prop contractor, 24 months of business statements, needs P&L for a bank statement loan. Target close date mid-August." required></textarea>
+      </div>
+      <p class="formnote">Don't attach or paste borrower documents here — we'll send a secure upload link after you submit.</p>
+      <button type="submit" class="btn">Submit — get your upload link</button>
+      <div id="formStatus" role="status"></div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="disc">Serving loan officers, mortgage brokers, and lending teams in Rockville, Bethesda, Gaithersburg, Silver Spring, Wheaton, and across Montgomery County and Maryland — with remote P&amp;L preparation available nationwide.</p>
+    <p class="disc"><strong>Disclosures:</strong> Maryland Biz Bookkeeper is a bookkeeping service. We are not a CPA firm, law firm, or lender, and nothing we prepare or communicate constitutes tax, legal, accounting, or lending advice. Profit &amp; loss statements are prepared from client-provided records to support income documentation and should be independently verified as required by your institution's underwriting guidelines. Borrowers and loan officers should consult their own qualified tax and legal professionals.</p>
+    <p class="mono">Maryland Biz Bookkeeper · Lender Desk · <span id="fAddr"></span><span id="fPhone"></span> · <a href="#" id="fMail"></a></p>
+    <p class="disc">Maryland Biz Bookkeeper is a trade name of [company legal name].</p>
+  </div>
+</footer>
+
+<script>
+/* ---- populate from CONFIG ---- */
+document.getElementById('p1').textContent = CONFIG.pricing.price12;
+document.getElementById('p2').textContent = CONFIG.pricing.price24;
+document.getElementById('volNote').textContent = CONFIG.pricing.volumeNote;
+document.getElementById('taChip').textContent = CONFIG.turnaround;
+document.getElementById('taLine').textContent = CONFIG.turnaround + ' turnaround';
+document.getElementById('fAddr').textContent = CONFIG.businessAddress;
+document.getElementById('fPhone').textContent = CONFIG.phone ? ' · ' + CONFIG.phone : '';
+const fm = document.getElementById('fMail');
+fm.textContent = CONFIG.contactEmail;
+fm.href = 'mailto:' + CONFIG.contactEmail;
+
+/* ---- FAQ price/turnaround spans from CONFIG ---- */
+document.querySelectorAll('.faqP12').forEach(el => el.textContent = CONFIG.pricing.price12);
+document.querySelectorAll('.faqP24').forEach(el => el.textContent = CONFIG.pricing.price24);
+document.querySelectorAll('.faqTa').forEach(el => el.textContent = CONFIG.turnaround);
+
+/* ---- Structured data (JSON-LD), built from CONFIG so prices never drift ---- */
+const faqPairs = [...document.querySelectorAll('.faq details')].map(d => ({
+  "@type": "Question",
+  "name": d.querySelector('summary').textContent.trim(),
+  "acceptedAnswer": { "@type": "Answer", "text": d.querySelector('.a').textContent.trim() }
+}));
+const ld = [
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Maryland Biz Bookkeeper — Lender Desk",
+    "description": "Third-party P&L preparation for bank statement loans and self-employed borrower income documentation, built for loan officers and mortgage brokers.",
+    "url": "https://marylandbizbookkeeper.com/lenders",
+    "email": CONFIG.contactEmail,
+    "address": { "@type": "PostalAddress", "addressLocality": "Wheaton", "addressRegion": "MD", "addressCountry": "US" },
+    "areaServed": ["Montgomery County, MD", "Rockville, MD", "Bethesda, MD", "Gaithersburg, MD", "Silver Spring, MD", "Maryland", "United States"],
+    "makesOffer": [
+      { "@type": "Offer", "name": "12-Month P&L (bank statement loan)", "price": CONFIG.pricing.price12.replace('$',''), "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "24-Month P&L (bank statement loan)", "price": CONFIG.pricing.price24.replace('$',''), "priceCurrency": "USD" }
+    ]
+  },
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": faqPairs }
+];
+const ldScript = document.createElement('script');
+ldScript.type = 'application/ld+json';
+ldScript.textContent = JSON.stringify(ld);
+document.head.appendChild(ldScript);
+
+/* ---- intake submission: endpoint if configured, else email fallback ---- */
+document.getElementById('intakeForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = e.target;
+  const status = document.getElementById('formStatus');
+  status.className = ''; status.style.display = 'none';
+
+  const required = ['loName','loCompany','loEmail','scenario'];
+  for (const id of required) {
+    const el = document.getElementById(id);
+    if (!el.value.trim()) { el.focus(); status.className='err'; status.textContent='Fill in ' + el.previousElementSibling.textContent.trim() + ' to continue.'; return; }
+  }
+  const data = Object.fromEntries(new FormData(f).entries());
+  data.submittedAt = new Date().toISOString();
+  data.source = 'lender-desk';
+
+  if (CONFIG.intakeEndpoint) {
+    try {
+      const res = await fetch(CONFIG.intakeEndpoint, {
+        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error(res.status);
+      status.className='ok';
+      status.textContent='Got it. Watch your inbox — your secure upload link is on the way (one business day, usually much faster).';
+      f.reset();
+    } catch (err) {
+      status.className='err';
+      status.innerHTML='Submission didn\'t go through. Email us directly at <a href="mailto:'+CONFIG.contactEmail+'">'+CONFIG.contactEmail+'</a> and we\'ll take it from there.';
+    }
+  } else {
+    // Email fallback: opens the LO's mail client pre-filled
+    const body = encodeURIComponent(
+      'New Lender Desk intake\n\n' +
+      'Name: ' + data.loName + '\nCompany: ' + data.loCompany + '\nEmail: ' + data.loEmail +
+      '\nPhone: ' + (data.loPhone||'—') + '\nNMLS: ' + (data.loNmls||'—') +
+      '\nRequest type: ' + data.fileType + '\n\nScenario:\n' + data.scenario
+    );
+    window.location.href = 'mailto:' + CONFIG.contactEmail +
+      '?subject=' + encodeURIComponent('Lender Desk intake — ' + data.loName + ', ' + data.loCompany) +
+      '&body=' + body;
+    status.className='ok';
+    status.textContent='Your email client should open with the details pre-filled — just hit send.';
+  }
+});
+</script>
+</body>
+</html>
