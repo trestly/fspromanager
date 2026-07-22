@@ -24,10 +24,9 @@
    CONFIG — edit everything here, nothing below needs touching
    ============================================================ */
 const CONFIG = {
-  contactEmail: "lenders@marylandbizbookkeeper.com",        // <-- CONFIRM: where intake submissions go
-  phone: "",                                    // optional, shows in footer if set
+  contactEmail: "lenders@marylandbizbookkeeper.com",        // public contact email (footer + JSON-LD); intake goes to Netlify Forms
+  phone: "240-916-5700",                        // shows in footer if set
   businessAddress: "[Your business mailing address]", // required in footer
-  intakeEndpoint: "",                           // optional: Supabase Edge Function URL. Blank = email fallback.
   pricing: {
     price12: "$299",                            // <-- CONFIRM: 12 months of statements
     price24: "$449",                            // <-- CONFIRM: 24 months of statements
@@ -333,7 +332,9 @@ footer .mono{font-size:12px}
   <div class="wrap">
     <h2>Send a file</h2>
     <p class="lede">Takes two minutes. We reply within one business day with a secure upload link for the borrower's statements.</p>
-    <form id="intakeForm" novalidate>
+    <form id="intakeForm" name="lender-intake" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="lender-intake">
+      <p hidden aria-hidden="true"><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
       <div class="frow">
         <div class="field">
           <label for="loName">Your name</label>
@@ -385,7 +386,7 @@ footer .mono{font-size:12px}
     <p class="disc">Serving loan officers, mortgage brokers, and lending teams in Rockville, Bethesda, Gaithersburg, Silver Spring, Wheaton, and across Montgomery County and Maryland — with remote P&amp;L preparation available nationwide.</p>
     <p class="disc"><strong>Disclosures:</strong> Maryland Biz Bookkeeper is a bookkeeping service. We are not a CPA firm, law firm, or lender, and nothing we prepare or communicate constitutes tax, legal, accounting, or lending advice. Profit &amp; loss statements are prepared from client-provided records to support income documentation and should be independently verified as required by your institution's underwriting guidelines. Borrowers and loan officers should consult their own qualified tax and legal professionals.</p>
     <p class="mono">Maryland Biz Bookkeeper · Lender Desk · <span id="fAddr"></span><span id="fPhone"></span> · <a href="#" id="fMail"></a></p>
-    <p class="disc">Maryland Biz Bookkeeper is a trade name of [company legal name].</p>
+    <p class="disc">Maryland Biz Bookkeeper is a trade name of Five Star Accounting &amp; Business Services.</p>
   </div>
 </footer>
 
@@ -435,7 +436,7 @@ ldScript.type = 'application/ld+json';
 ldScript.textContent = JSON.stringify(ld);
 document.head.appendChild(ldScript);
 
-/* ---- intake submission: endpoint if configured, else email fallback ---- */
+/* ---- intake submission: AJAX POST to Netlify Forms ---- */
 document.getElementById('intakeForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const f = e.target;
@@ -447,36 +448,19 @@ document.getElementById('intakeForm').addEventListener('submit', async (e) => {
     const el = document.getElementById(id);
     if (!el.value.trim()) { el.focus(); status.className='err'; status.textContent='Fill in ' + el.previousElementSibling.textContent.trim() + ' to continue.'; return; }
   }
-  const data = Object.fromEntries(new FormData(f).entries());
-  data.submittedAt = new Date().toISOString();
-  data.source = 'lender-desk';
 
-  if (CONFIG.intakeEndpoint) {
-    try {
-      const res = await fetch(CONFIG.intakeEndpoint, {
-        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)
-      });
-      if (!res.ok) throw new Error(res.status);
-      status.className='ok';
-      status.textContent='Got it. Watch your inbox — your secure upload link is on the way (one business day, usually much faster).';
-      f.reset();
-    } catch (err) {
-      status.className='err';
-      status.innerHTML='Submission didn\'t go through. Email us directly at <a href="mailto:'+CONFIG.contactEmail+'">'+CONFIG.contactEmail+'</a> and we\'ll take it from there.';
-    }
-  } else {
-    // Email fallback: opens the LO's mail client pre-filled
-    const body = encodeURIComponent(
-      'New Lender Desk intake\n\n' +
-      'Name: ' + data.loName + '\nCompany: ' + data.loCompany + '\nEmail: ' + data.loEmail +
-      '\nPhone: ' + (data.loPhone||'—') + '\nNMLS: ' + (data.loNmls||'—') +
-      '\nRequest type: ' + data.fileType + '\n\nScenario:\n' + data.scenario
-    );
-    window.location.href = 'mailto:' + CONFIG.contactEmail +
-      '?subject=' + encodeURIComponent('Lender Desk intake — ' + data.loName + ', ' + data.loCompany) +
-      '&body=' + body;
+  const body = new URLSearchParams(new FormData(f)).toString();
+  try {
+    const res = await fetch('/', {
+      method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body
+    });
+    if (!res.ok) throw new Error(res.status);
     status.className='ok';
-    status.textContent='Your email client should open with the details pre-filled — just hit send.';
+    status.textContent='Got it. Watch your inbox — your secure upload link is on the way (one business day, usually much faster).';
+    f.reset();
+  } catch (err) {
+    status.className='err';
+    status.innerHTML='Submission didn\'t go through. Email us directly at <a href="mailto:'+CONFIG.contactEmail+'">'+CONFIG.contactEmail+'</a> and we\'ll take it from there.';
   }
 });
 </script>
