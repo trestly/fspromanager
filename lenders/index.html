@@ -441,7 +441,7 @@ document.getElementById('intakeForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const f = e.target;
   const status = document.getElementById('formStatus');
-  status.className = ''; status.style.display = 'none';
+  status.className = ''; status.style.removeProperty('display');
 
   const required = ['loName','loCompany','loEmail','scenario'];
   for (const id of required) {
